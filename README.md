@@ -13,3 +13,10 @@ Here are some patches to dwmblocks that add features that I either don't want to
 I do not maintain these but I will take pull requests to update them.
 <br>
 <a href=https://gist.github.com/IGeraGera/e4a5583b91b3eec2e81fdceb44dea717>dwmblocks-statuscmd-b6b0be4.diff</a>
+
+# weather location
+
+If you want to change location, you should create `location.h`
+that contains the location of the city that you want to use
+this is so, the developers of the project can use its repository *and*
+not redact every time the city they live in for **privacy** reasons.
