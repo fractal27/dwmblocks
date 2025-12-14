@@ -83,6 +83,7 @@ void getcmd(const Block *block, int j, char *output)
        }
        if(j == LENGTH(blocks)-1) strncpy(tempstatus+i, enddelim, enddelimLen);
        strcpy(output, tempstatus);
+       // printf("output: %s\n",output);
        pclose(cmdf);
 }
 
