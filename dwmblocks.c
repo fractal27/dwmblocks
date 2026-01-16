@@ -68,7 +68,7 @@ void getcmd(const Block *block, int j, char *output)
        int islastblock = (j == LENGTH(blocks)-1);
        int isfirstblock = !j;
 
-       if(j == 0) strncpy(tempstatus, startdelim, CMDLENGTH);
+       if(isfirstblock) strncpy(tempstatus, startdelim, CMDLENGTH);
        strncpy(tempstatus, block->icon, CMDLENGTH);
        fgets(tempstatus+i, CMDLENGTH-i-delimLen-(isfirstblock?startdelimLen:0)-(islastblock?enddelimLen:0), cmdf);
        i = strlen(tempstatus);
@@ -203,10 +203,10 @@ void termhandler(int sig)
 int main(int argc, char** argv)
 {
        for (int i = 0; i < argc; i++) {//Handle command line arguments
-              if (!strcmp("-d",argv[i]))
-                     strncpy(delim, argv[++i], delimLen);
-              else if (!strcmp("-p",argv[i]))
-                     writestatus = pstdout;
+		   if (!strcmp("-d",argv[i]))
+			   strncpy(delim, argv[++i], delimLen);
+		   else if (!strcmp("-p",argv[i]))
+			   writestatus = pstdout;
        }
 #ifndef NO_X
        if (!setupX())
