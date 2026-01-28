@@ -1,0 +1,49 @@
+#!/bin/sh
+lan(){
+	VAR=$(ip a | grep 'eno1\:' | awk '// {print $9;}');
+	if [ \"$VAR\" = \"UP\" ]; then
+	   printf '\6 LAN';
+	else printf '\7 LAN';
+	fi;
+}
+
+routers(){
+	ping -c 2 $(ip r show default | cut -d ' ' -f3) > /dev/null;
+	if [ $? -eq 0 ]; then
+	   printf '\6-'R;
+	else 
+	   printf '\7-'R;
+	fi
+	#ping -c 2 $(cat /etc/resolv.conf  | grep nameserver | cut -d ' ' -f2) > /dev/null;
+	while [ $# -gt 0 ]; do
+		ping -c 2 $1 > /dev/null;
+		if [ $? -eq 0 ]; then
+			printf '\6-'R;
+		else 
+			printf '\7-'R;
+		fi
+		shift
+	done
+}
+
+wan() {
+	ping -c 2 1.1.1.1 > /dev/null;
+	if [ $? -eq 0 ]; then
+		printf '\6-'WAN;
+	else 
+		printf '\7-'WAN;
+	fi
+}
+
+#printf "getting lan status"
+lan > lan.part&
+#printf "\rgetting routers status"
+routers $@ > routers.part&
+#printf "\rgetting wan status"
+wan > wan.part&
+
+wait
+
+cat lan.part routers.part wan.part
+rm lan.part routers.part wan.part
+
